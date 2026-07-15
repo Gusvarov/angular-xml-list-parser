@@ -1,0 +1,151 @@
+<main class="library">
+  <header class="library-header">
+    <div>
+      <h1>Book Library</h1>
+      <p class="library-subtitle">
+        Manage books in memory. Load and save your library as XML.
+      </p>
+    </div>
+
+    <div class="library-file-actions">
+      <label class="btn btn-secondary">
+        Load XML
+        <input
+          type="file"
+          accept=".xml,text/xml,application/xml"
+          (change)="onLoadXml($event)"
+          hidden
+        />
+      </label>
+      <button type="button" class="btn btn-secondary" (click)="onSaveXml()">
+        Save XML
+      </button>
+    </div>
+  </header>
+
+  @if (statusMessage(); as message) {
+    <p
+      class="library-status"
+      [class.library-status-error]="isStatusError()"
+      role="status"
+    >
+      {{ message }}
+    </p>
+  }
+
+  <section class="panel library-controls">
+    <label class="field">
+      <span class="field-label">Search by title</span>
+      <input
+        type="search"
+        class="field-input"
+        placeholder="Type to filter titles"
+        [ngModel]="titleValue()"
+        (ngModelChange)="onTitleChange($event)"
+      />
+    </label>
+  </section>
+
+  <div class="library-layout">
+    <section class="panel">
+      <h2>{{ formHeading() }}</h2>
+      <form class="book-form" (ngSubmit)="onSubmitForm()">
+        <label class="field">
+          <span class="field-label">Title</span>
+          <input
+            type="text"
+            class="field-input"
+            name="title"
+            required
+            [(ngModel)]="form().title"
+          />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Author</span>
+          <input
+            type="text"
+            class="field-input"
+            name="author"
+            required
+            [(ngModel)]="form().author"
+          />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Pages</span>
+          <input
+            type="number"
+            class="field-input"
+            name="pages"
+            min="1"
+            step="1"
+            required
+            [(ngModel)]="form().pages"
+          />
+        </label>
+
+        <div class="book-form-actions">
+          <button type="submit" class="btn btn-primary">
+            {{ submitLabel() }}
+          </button>
+          @if (formMode() === 'edit') {
+            <button
+              type="button"
+              class="btn btn-ghost"
+              (click)="onCancelEdit()"
+            >
+              Cancel
+            </button>
+          }
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="library-list-header">
+        <div class="library-list-title">
+          <h2>Books</h2>
+          <span class="library-count">{{ displayedBooks().length }} shown</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-sort" (click)="onSort()">
+          {{ sortButtonLabel() }}
+        </button>
+      </div>
+
+      @if (displayedBooks().length === 0) {
+        <p class="library-empty">No books match the current filters.</p>
+      } @else {
+        <ul class="book-list">
+          @for (book of displayedBooks(); track book.id) {
+            <li class="book-list-item">
+              <div class="book-list-content">
+                <h3 class="book-list-title">{{ book.title }}</h3>
+                <p class="book-list-meta">
+                  <span>{{ book.author }}</span>
+                  <span>{{ book.pages }} pages</span>
+                </p>
+              </div>
+              <div class="book-list-actions">
+                <button
+                  type="button"
+                  class="btn btn-ghost"
+                  (click)="onEditBook(book)"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onRemoveBook(book)"
+                >
+                  Remove
+                </button>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+</main>

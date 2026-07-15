@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+  <book id="andersen-mermaid">
+    <title>The Little Mermaid</title>
+    <author>Andersen</author>
+    <pages>48</pages>
+  </book>
+  <book id="andersen-duckling">
+    <title>The Ugly Duckling</title>
+    <author>Andersen</author>
+    <pages>32</pages>
+  </book>
+  <book id="king-shining">
+    <title>The Shining</title>
+    <author>King</author>
+    <pages>447</pages>
+  </book>
+  <book id="king-it">
+    <title>It</title>
+    <author>King</author>
+    <pages>1138</pages>
+  </book>
+</library>
